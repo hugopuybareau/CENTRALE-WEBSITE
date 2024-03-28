@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<script src="leaflet.js"> // insertion bibliothèque Leaflet : http://leafletjs.com/ </script>
+
+<title>TAZI_GUIDI_PUYBAREAU.html</title>
+<link rel="stylesheet" type="text/css" href="leaflet.css" /> 
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+<meta charset="utf-8">
+
+<style>
+
+.slidein {
+  animation-duration: 3s;
+  animation-name: slidein;
+}
+
+/*L'animation de glissement de la page*/
+
+@keyframes slidein {
+  from {
+      margin-left: -100%;
+  }
+  to {
+      margin-left: 0%;
+      padding-left: 10px;
+      padding-right: 10px;
+  }
+}
+
+/*CSS de la carteµ*/
+#map { 
+  height: 420px; 
+  width: 45%; 
+  float:left; 
+  margin-left:8%; 
+  margin-right:12.5%; 
+  margin-top: 1%; 
+  margin-bottom: 2%;
+  border-top: 10px solid rgba(11, 144, 195);
+  border-bottom: 10px solid rgba(11, 144, 195);
+  border-left: 10px solid rgba(11, 144, 195);
+  border-right: 10px solid rgba(11, 144, 195);
+} 
+
+/* CSS de la zone de texte à droite de la page*/
+#zone_affichage_texte {
+  color : Black;  
+  text-align: left; 
+  background-color: rgba(255,255,255,0.2);
+  margin-left: 60%;
+  text-shadow: 3px 3px 3px white;
+  font-family: Arial;
+  font-size: larger;
+  border-top: 3px solid rgba(255,255,255,0.2);
+  border-bottom: 3px solid rgba(255,255,255,0.2);
+  border-left: 3px solid rgba(255,255,255,0.2);
+  border-right: 3px solid rgba(255,255,255,0.2);
+}
+
+/*CSS de la même zone mais quand la souris est dessus*/
+#zone_affichage_texte:hover {
+  color : black;  
+  text-align: left; 
+  background-color: rgba(255,255,255,0.6);
+  margin-left: 60%;
+  text-shadow: 3px 3px 3px white;
+  font-family: Arial;
+  font-size: larger;
+  border-top: 3px solid rgba(255,255,255,0.6);
+  border-bottom: 3px solid rgba(255,255,255,0.6);
+  border-left: 3px solid rgba(255,255,255,0.6);
+  border-right: 3px solid rgba(255,255,255,0.6);
+}
+
+#custom-button {
+  background-color: #00FF00  ;
+  color: #00FF00;
+  padding: 10px 20px;
+  border: 1px dotted #00FF00;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#custom-button: hover {
+  background-color: #00FF00;
+}
+
+#custom-button:active {
+  background-color: #00FF00;
+  transform: translateY(2px);
+}
+
+#boutc {
+  margin-bottom: 1px; /* Ajoute une marge en bas de la div 1 */
+}
+
+#reponse {
+  margin-top: 1px; /* Ajoute une marge en haut de la div 2 */
+}
+
+
+</style>
+
+<style>
+
+  .hidden-button {
+    color: red;
+    font-size: 14px;
+    display: none;
+  }
+
+</style>
+
+<body class="slidein" onload="load_data()">  <!-- Récupération des données avec le chargement de la page + class slidein pour l'animation -->
+
+<h1>Hydrométrie des rivières bretones</h1>
+
+<p style="font-size: 20px; color:white;"> <!-- Ajout d'une autre page avec un rapide code CSS pour le texte -->
+  <a href="explic.html">Que pouvez-vous trouver sur notre site ?</a>
+  </p>
+
+
+ <!-- <label><span>Région :</span><input id="region" name="Region"> 
+ <button id="bouton">Afficher la courbe</button>  </label>  -->
+ <button id="boutc" class="custom-button" title="Recentrer la carte" onclick="centrer()">Centrer carte</button>
+ <div id="map"  class=".slidein">
+ </div>  
+<div id="reponse">
+  <p align="center"></p>
+  <img width="70%" src="" />
+
+<p class="date">
+  <label for="start" class="debut">Date de début :</label>
+  <input type="date" id="start" name="trip-start" value="2018-01-01" min="2018-01-01" max="2023-12-31">
+</p>
+
+<p class="date">
+  <label for="end" classe="fin">Date de fin :</label>
+  <input type="date" id="end" name="trip-end" value="2020-12-31" min="2018-01-01" max="2023-12-31">
+</p>
+<div id="zone_affichage_texte">
+  
+  <!--Création de la zone reliant l'utilisateur à la base de données via le serveur--> 
+    
+    <!--Création de labels donnant les informations générales sur la station sélectionnée-->
+    <div class="donnees">
+      <label  for="nom_station"><b>Nom de la station : </b></label> <span class = "info_station" id="nom_station"></span> <br>
+      <label   for="etat_station"><b>État de la station : </b></label><span class = "info_station" id="etat_station"></span><br>
+      <label for="nom_intervenant" ><b>Commune : </b></label><span class = "info_station" id="nom_intervenant"></span><br>
+    </div>
+
+    <button title="moyenne interanuelle en m^3/s" id="boutonMoy" class="boutoncourbe" onclick = "courbe(start.value, end.value,id_station, 'Moyenneinterannuelle')"> Moyenne interanuelle </button>
+
+    <button title="Valeur forte" id="boutonVF" class="boutoncourbe"  onclick = "courbe(start.value, end.value,id_station, 'Valeurforte');" > Valeur forte </button>
+
+    <button title="Valeur faible" id="boutonVf" class="boutoncourbe"  onclick = "courbe(start.value, end.value,id_station, 'Valeurfaible');" > Valeur faible </button>
+
+    <button title="Valeur très faible" id="boutonVtf" class="boutoncourbe"  onclick = "courbe(start.value, end.value,id_station, 'Valeurtresfaible')" > Valeur tres faible </button>
+
+    <button title="QMJ validé" id="boutonQMJv" class="boutoncourbe"  onclick = "courbe(start.value, end.value,id_station, 'QMJValide');" > QMJ validé </button>
+
+    <button title="QMJ provisoire" id="boutonQMJp" class="boutoncourbe"  onclick = "courbe(start.value, end.value,id_station, 'QMJprovisoire');" > QMJ provisoire </button>
+
+    
+
+    
+ <div>   
+<div id="myDiv"></div>
+
+  </div>
+
+  
+  
+
+</div>
+</body>
+
+<script>
+document.getElementById("boutonMoy").disabled = true;
+document.getElementById("boutonVF").disabled = true;
+document.getElementById("boutonVf").disabled = true;
+document.getElementById("boutonVtf").disabled = true;
+document.getElementById("boutonQMJp").disabled = true;
+document.getElementById("boutonQMJv").disabled = true;
+
+// Creation d'une carte dans la balise div "map", et positionne la vue sur un point donné et un niveau de zoom
+var map = L.map('map').setView([48.2, -1], 8); // J'ai mis des coordonnées au milieu de la Bretagne et j'ai ajusté le niveau de zoom.
+// Ajout d'une couche de dalles OpenStreetMap
+L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+     attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+     }).addTo(map);
+
+   
+function load_data () {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onload = function() {   // fonction callback
+      // récupération des données renvoyées par le serveur
+      var data = JSON.parse(this.responseText);
+      // boucle sur les enregistrements renvoyés
+      for ( n = 0; n < data.length; n++ ) {
+        // insertion d'un marqueur à la position, attachement d'une popup, capture de l'évènement "clic'
+        L.marker([data[n].lat,data[n].lon]).addTo(map)
+          .bindPopup(data[n].nom)
+          .addEventListener('click',OnMarkerClick)
+          .addEventListener('mouseover',OnMarkerOver)
+          .idreg=data[n].n;   // propriété personnalisée ajouté au marqueur
+        }
+    };
+    xhr.open('GET','/location',true);
+    xhr.send();
+}
+
+function centrer() {
+map.setView([48.2, -1], 8)
+
+}
+function OnMarkerOver () {
+    L.marker.icon = 'images/marker-icon-2x.png'
+}
+
+function OnMarkerClick (e) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET','/info/'+e.target.idreg,true);  // on récupère les infos
+    xhr.send();
+
+
+    xhr.onload = function() {   // fonction callback
+      var data = JSON.parse(this.responseText)
+      var div = document.getElementById("myDiv");
+            div.innerHTML = ''
+      nom_station.innerHTML = ' '+ data.Nom
+      etat_station.innerHTML = data.etat
+      nom_intervenant.innerHTML = ' '+data.Commune
+      id_station=data.codeStation
+      lat=data.lat
+      lon=data.lon
+      map.setView([lat ,lon+0.23], 11)
+      document.getElementById("boutonMoy").disabled = false;
+      document.getElementById("boutonVF").disabled = false;
+      document.getElementById("boutonVf").disabled = false;
+      document.getElementById("boutonVtf").disabled = false;
+      document.getElementById("boutonQMJp").disabled = false;
+      document.getElementById("boutonQMJv").disabled = false;
+      document.getElementById("boutonSuper").disabled = false;
+    };
+     
+}
+
+function courbe(date1, date2, id_station, key) {
+  var xhr = new XMLHttpRequest();
+  //alert('Figure'+key+'_'+id_station+'_'+date1+date2)
+  xhr.open('GET','/courbes?debut='+String(date1) +'&fin='+String(date2)+'&id_station='+String(id_station) +'&key='+String(key)+true);
+  var div = document.getElementById("myDiv");
+            div.innerHTML = '<img src="courbe/Figure'+key+'_'+id_station+'_'+date1+date2+'.png" alt="Ma Image" width="400" height="300">';
+  
+  xhr.send()
+};
+
+
+</script>
+
+

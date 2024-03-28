@@ -1,0 +1,139 @@
+﻿.custom-button {
+  background-color: green;
+  color: white;
+  margin-bottom: 1px;
+  margin-top: 1px;
+  padding: 10px 20px;
+  border: 1px dotted #000000;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.custom-button:hover {
+  background-color: limegreen;
+}
+
+.custom-button:active {
+  background-color: green;
+  transform: translateY(2px);
+}
+
+.boutoncourbe {
+  background-color: black;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  color: white;
+  padding: 10px 20px;
+  border: 1px dotted #000000;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.boutoncourbe:hover {
+  background-color: darkgrey;
+}
+
+.boutoncourbe:active {
+  background-color: black;
+  transform: translateY(2px);
+}
+
+.boutoncourbe:disabled {
+  background-color: darkgrey;
+  transform: translateY(2px);
+}
+
+.date {
+  display: inline-block; /* Affiche les éléments en ligne */
+  vertical-align: top; /* Aligne les éléments en haut */
+  margin-right: 10px; /* Ajoute un espace entre les calendriers */
+  margin-bottom: 10px;
+}
+
+
+.boutc {
+  margin-bottom: 1px; /* Ajoute une marge en bas de la div 1 */
+}
+
+.reponse {
+  margin-top: 1px; /* Ajoute une marge en haut de la div 2 */
+}
+
+/* fond de page */
+body {
+  background-image: url(images/imgdefond.jpg);
+  background-size: 120%;
+  background-repeat: no-repeat;
+  /*background-color : black;*/
+  /*height: 100vh;
+  margin: 0;*/
+  /* pour éviter l'ascenseur */
+  /*border: 1px solid transparent;
+  box-sizing: border-box;*/
+}
+
+/* bandeau de titre */
+h1 { 
+  color: white;
+  text-align: center;
+  background-color: rgba(255,255,255,0.3);
+  border-top: 3px solid rgba(255,255,255,0.6);
+  border-bottom: 3px solid rgba(255,255,255,0.6);
+  margin-top: 1.33em;
+  text-shadow: 3px 3px 3px black;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  margin-bottom: 1.33em;
+}
+
+h1:hover {
+  background-image: url(images/drapeau.png);
+}
+
+/* contenu de la page */
+body > * {   padding-left: 10px; }
+
+/* polices de caractères */
+body { font-family: Trebuchet MS, sans-serif; }
+
+/* positionnement des champs */
+/* label { display: block; }
+label span { display: inline-block; width: 5em; height: 1.5em; } */
+
+/*
+input, textarea {
+  font-family: monospace;
+  padding: 2px 0.5em;
+  width: 5em;
+  font-size: 1.2em;
+  line-height: 1.33em;
+  color: #666;
+  margin-top: 5px;
+}
+.button {
+  border: 3px outset #444;
+  background-color: #888;
+  padding: 5px 0.5em;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 1em 0;
+
+  color: #eee;
+  text-shadow: #000 -1px -1px 0;
+  right: calc(100% - 8em - 3px);
+}
+*/
+/*
+a {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+*/
+a.delete:hover {
+  color: red;
+}
+
+

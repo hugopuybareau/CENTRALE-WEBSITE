@@ -1,0 +1,76 @@
+/* fond de page */
+body {
+    background-image: url(images/imgdefond.jpg);
+    background-size: 120%;
+    background-repeat: no-repeat;
+    animation-duration: 3s;
+    animation-name: slidein;
+    /* pour éviter l'ascenseur */
+    border: 1px solid transparent;
+    box-sizing: border-box;
+  }
+
+  /* bandeau de titre */
+h1 { 
+    color: white;
+    text-align: center;
+    background-color: rgba(255,255,255,0.3);
+    border-top: 3px solid rgba(255,255,255,0.6);
+    border-bottom: 3px solid rgba(255,255,255,0.6);
+    margin-top: 1.33em;
+    text-shadow: 3px 3px 3px black;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1.33em;
+  }
+
+h1:hover {
+    background-image: url(images/drapeau.png);
+}
+
+#letexte {
+  line-height: 150%;
+  margin-top: 1%;
+  color : black;  
+  text-align: center; 
+  background-color: rgba(255,255,255,0.2);
+  text-shadow: 3px 3px 3px white;
+  font-family: Arial;
+  font-size: larger;
+  border-top: 3px solid rgba(255,255,255,0.2);
+  border-bottom: 3px solid rgba(255,255,255,0.2);
+  border-left: 3px solid rgba(255,255,255,0.2);
+  border-right: 3px solid rgba(255,255,255,0.2);
+}
+
+#letexte:hover {
+  margin-top: 1%;
+  color : black;  
+  text-align: center; 
+  background-color: rgba(255,255,255,0.6);
+  text-shadow: 3px 3px 3px white;
+  font-family: Arial;
+  font-size: larger;
+  border-top: 3px solid rgba(255,255,255,0.6);
+  border-bottom: 3px solid rgba(255,255,255,0.6);
+  border-left: 3px solid rgba(255,255,255,0.6);
+  border-right: 3px solid rgba(255,255,255,0.6);
+}
+
+/* contenu de la page */
+body > * {   padding-left: 10px; }
+
+/* polices de caractères */
+body { font-family: Trebuchet MS, sans-serif; }
+
+/* Animation de glissement à l'entrée de la page*/
+@keyframes slidein {
+  from {
+      margin-left: -100%;
+  }
+  to {
+      margin-left: 0%;
+      padding-left: 10px;
+      padding-right: 10px;
+  }
+}
